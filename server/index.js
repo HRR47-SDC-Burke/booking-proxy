@@ -11,8 +11,6 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, '/../client')));
 app.use('/:id', express.static(path.join(__dirname, '/../client')));
 
-app.use(bodyParser.json());
-
 const imagesProxy = createProxyMiddleware(
   'http://localhost:3001/api/images'
 );
@@ -29,9 +27,11 @@ const overallReviewsProxy = createProxyMiddleware(
 app.use('/api/overall_reviews', overallReviewsProxy);
 
 const individualReviewsProxy = createProxyMiddleware(
-  'http://localhost:3003/api/individual_reviews'
+  'http://localhost:9000/api/individual_reviews'
 );
 app.use('/api/individual_reviews', individualReviewsProxy);
+
+app.use(bodyParser.json());
 
 app.listen(port, () => {
   console.log(`Proxy server listening on port ${port}`);
