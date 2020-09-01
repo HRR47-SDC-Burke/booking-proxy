@@ -1,4 +1,5 @@
 const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const path = require('path');
 const app = express();
 const axios = require('axios');
@@ -12,33 +13,25 @@ app.use('/:id', express.static(path.join(__dirname, '/../client')));
 
 app.use(bodyParser.json());
 
-app.get('/api/images/:id', (req, res) => {
-  const id = req.url.slice(12);
-  axios.get(`http://localhost:3001/api/images/${id}`)
-    .then((data) => res.send(data.data))
-    .catch((error) => console.log(error));
-});
+const imagesProxy = createProxyMiddleware(
+  'http://localhost:3001/api/images'
+);
+app.use('/api/images', imagesProxy);
 
-app.get('/api/booking/:id', (req, res) => {
-  const id = req.url.slice(13);
-  axios.get(`http://localhost:3002/api/booking/${id}`)
-    .then((data) => res.send(data.data))
-    .catch((error) => console.log(error));
-});
+const bookingProxy = createProxyMiddleware(
+  'http://localhost:3002/api/booking'
+);
+app.use('/api/booking', bookingProxy);
 
-app.get('/api/overall_reviews/:id', (req, res) => {
-  const id = req.url.slice(21);
-  axios.get(`http://localhost:3003/api/overall_reviews/${id}`)
-    .then((data) => res.send(data.data))
-    .catch((error) => console.log(error));
-});
+const overallReviewsProxy = createProxyMiddleware(
+  'http://localhost:3003/api/overall_reviews'
+);
+app.use('/api/overall_reviews', overallReviewsProxy);
 
-app.get('/api/individual_reviews/:id', (req, res) => {
-  const id = req.url.slice(24);
-  axios.get(`http://localhost:3003/api/individual_reviews/${id}`)
-    .then((data) => res.send(data.data))
-    .catch((error) => console.log(error));
-});
+const individualReviewsProxy = createProxyMiddleware(
+  'http://localhost:3003/api/individual_reviews'
+);
+app.use('/api/individual_reviews', individualReviewsProxy);
 
 app.listen(port, () => {
   console.log(`Proxy server listening on port ${port}`);
