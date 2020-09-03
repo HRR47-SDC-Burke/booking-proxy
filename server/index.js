@@ -14,21 +14,23 @@ app.use(express.static(path.join(__dirname, '/../client')));
 app.use('/:id', express.static(path.join(__dirname, '/../client')));
 
 const imagesProxy = createProxyMiddleware(
-  'http://localhost:3001/api/images'
+  process.env.IMAGES_SERVICE_URL || 'http://localhost:3001/api/images'
 );
 app.use('/api/images', imagesProxy);
 
 const bookingProxy = createProxyMiddleware(
-  'http://localhost:3002/api/booking'
+  process.env.BOOKING_SERVICE_URL || 'http://localhost:3002/api/booking'
 );
 app.use('/api/booking', bookingProxy);
 
 const overallReviewsProxy = createProxyMiddleware(
-  'http://localhost:3003/api/overall_reviews'
+  process.env.OVERALL_REVIEWS_SERVICE_URL
+  || 'http://localhost:3003/api/overall_reviews'
 );
 app.use('/api/overall_reviews', overallReviewsProxy);
 
 const individualReviewsProxy = createProxyMiddleware(
+  process.env.INDIVIDUAL_REVIEWS_SERVICE_URL ||
   'http://localhost:9000/api/individual_reviews'
 );
 app.use('/api/individual_reviews', individualReviewsProxy);
