@@ -24,3 +24,6 @@ coverage
 build/
 dist/
 
+# Environment Variables
+.env
+.env.swp
