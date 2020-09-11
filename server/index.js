@@ -50,6 +50,12 @@ const overallReviewsProxy = createProxyMiddleware(
 );
 app.use('/api/overall_reviews', overallReviewsProxy);
 
+const individualReviewsProxy = createProxyMiddleware(
+  process.env.INDIVIDUAL_REVIEWS_SERVICE_URL
+  || 'http://localhost:3003/api/individual_reviews'
+);
+app.use('/api/individual_reviews', individualReviewsProxy);
+
 app.listen(port, () => {
   console.log(`Proxy server listening on port ${port}`);
 });
