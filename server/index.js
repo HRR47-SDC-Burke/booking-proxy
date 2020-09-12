@@ -28,33 +28,43 @@ app.use('/:id', express.static(path.join(__dirname, '/../client')));
 /**
  * Images Service Proxy
  */
-const imagesProxy = createProxyMiddleware(
-  process.env.IMAGES_SERVICE_URL || 'http://localhost:3001/api/images'
-);
+const imagesUrl = process.env.IMAGES_SERVICE_URL || 'http://localhost:3001';
+const imagesProxy = createProxyMiddleware(imagesUrl + '/api/images');
 app.use('/api/images', imagesProxy);
+
+app.get('*/images_script', (req, res) => {
+  res.redirect(`${imagesUrl}/bundle.js`);
+  return;
+});
 
 /**
  * Booking Service Proxy
  */
-const bookingProxy = createProxyMiddleware(
-  process.env.BOOKING_SERVICE_URL || 'http://localhost:3002/api/booking'
-);
+const bookingUrl = process.env.BOOKING_SERVICE_URL || 'http://localhost:3002';
+const bookingProxy = createProxyMiddleware(bookingUrl + '/api/booking');
 app.use('/api/booking', bookingProxy);
+
+app.get('*/booking_script', (req, res) => {
+  res.redirect(`${bookingUrl}/bundle.js`);
+  return;
+});
 
 /**
  * Reviews Service Proxy
  */
+const reviewsUrl = process.env.REVIEWS_SERVICE_URL || 'http://localhost:3003';
 const overallReviewsProxy = createProxyMiddleware(
-  process.env.OVERALL_REVIEWS_SERVICE_URL
-  || 'http://localhost:3003/api/overall_reviews'
+  reviewsUrl + '/api/overall_reviews'
+);
+const individualReviewsProxy = createProxyMiddleware(
+  reviewsUrl + '/api/individual_reviews'
 );
 app.use('/api/overall_reviews', overallReviewsProxy);
-
-const individualReviewsProxy = createProxyMiddleware(
-  process.env.INDIVIDUAL_REVIEWS_SERVICE_URL
-  || 'http://localhost:3003/api/individual_reviews'
-);
 app.use('/api/individual_reviews', individualReviewsProxy);
+app.get('*/reviews_script', (req, res) => {
+  res.redirect(`${reviewsUrl}/bundle.js`);
+  return;
+});
 
 app.listen(port, () => {
   console.log(`Proxy server listening on port ${port}`);
