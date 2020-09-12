@@ -1,9 +1,15 @@
 {
-  "name": "LairBnB",
-  "version": "",
-  "description": "Airbnb Clone Proxy",
+  "name": "Lairbnb Proxy",
+  "version": "0.1.0",
+  "description": "Proxy server for vacation rentals listing page",
   "author": "Brennan Caldwell",
-  "license": "",
+  "contributors": [
+    {
+      "name": "Doruk Gurleyen",
+      "url": "https://github.com/kzlsakal"
+    }
+  ],
+  "license": "ISC",
   "engines": {
     "node": ">=6.13.0"
   },
