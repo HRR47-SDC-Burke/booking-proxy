@@ -1,52 +1,78 @@
-# Project Name
+# Lairbnb / booking-proxy
 
-Proxy server for Lairbnb, a vacation rental booking website.
+> Proxy server for the listing page of a vacation rental website
 
 ## Related Projects
 
   - https://github.com/HRR47-SDC-Burke/booking-service
   - https://github.com/HRR47-SDC-Burke/carousel-service
-  - https://github.com/HRR47-SDC-Burke/moreplacestostay-service
   - https://github.com/HRR47-SDC-Burke/reviews-service
 
 ## Table of Contents
 
 1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+2. [Requirements](#requirements)
+3. [Development](#development)
+4. [Production](#production)
+5. [Screenshot](#screenshot)
 
 ## Usage
 
-A proxy server for Lairbnb, a vacation rental booking website.
-Once the server is running, directing the browser to http://localhost:3000/:id
-will render location data for the associated id.
+> Example URL: http://localhost:3002/25
 
 ## Requirements
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
-
 - Node v12.18.1
-
-Please clone all repos listed under Related Projects and follow each ReadMe
-carefully before running the proxy server.
 
 ## Development
 
-### Installing Dependencies
+> All commands from within the repository's root directory.
 
-From within the root directory:
+### Installing Dependencies
 
 ```sh
 npm install
 ```
-## Running the Proxy
+### Development Server
 
-Once all services are ready and databases and servers are up an running,
-from within the root directory:
+```sh
+npm run start:dev
+```
+
+## Production
+
+### Environment Variables
+> If you do not have the environment variables set up via shell, you can create
+> a `.env` file in the repository's root folder to load them.
+
+```sh
+BOOKING_SERVICE_URL=<booking-service-url> # http://127.0.0.1:3002
+IMAGES_SERVICE_URL=<carousel-images-service-url> # http://127.0.0.1/3001
+REVIEWS_SERVICE_URL=<reviews-service-url> # http://127.0.0.1/3003
+NEW_RELIC_LICENSE_KEY=<your-new-relic-license-key>
+CLOUD_STYLE_URL=<your-cloud-bucket-url> # https://x.amazonaws.com/sdc-proxy
+```
+
+### Node Server
 
 ```sh
 npm start
 ```
 
-Direct the browser to http://localhost:3000/:id, passing in 1, 2, or 3 to see
-data associated with the particular location id.
+### Hosting Assets on Cloud
+> Requires [Grunt](https://gruntjs.com/) and the dev dependencies to be installed
+
+- Create the grunt-aws.json file at $HOME/.aws directory
+  ```sh
+  {
+    "accessKeyId": "<your-access-keyId>",
+    "secretAccessKey": "<your-access-secret>",
+    "bucket": "<your-bucket-name>"
+  }
+  ```
+- Add `CLOUD_STYLE_URL=<your-cloud-bucket-url>` to the environment variables
+
+- Run $ `grunt` on the terminal
+
+## Screenshot
+![Screenshot](./docs/screenshot.png?raw=true "Screenshot")
