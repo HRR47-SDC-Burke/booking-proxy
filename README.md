@@ -1,4 +1,4 @@
-# Lairbnb / booking-proxy
+# Vacation Now / booking-proxy
 
 > Proxy server for the listing page of a vacation rental website
 
